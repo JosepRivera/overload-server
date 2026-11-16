@@ -12,7 +12,7 @@ export class UuidPipe implements PipeTransform<string, Promise<string>> {
 
 	async transform(value: string, metadata: ArgumentMetadata): Promise<string> {
 		try {
-			return await this.inner.transform(value, metadata);
+			return (await this.inner.transform(value, metadata)) as string;
 		} catch {
 			const field = metadata.data ?? "id";
 			throw new BadRequestException({
