@@ -82,6 +82,7 @@ Las entradas de `errors` pueden incluir metadata de schema adicional más allá 
 | `403`      | Forbidden          | Autenticado, pero el recurso pertenece a otro usuario                                    |
 | `404`      | Not Found          | El recurso no existe, o no te pertenece                                                    |
 | `409`      | Conflict           | El request contradice el estado actual — ver abajo                                          |
+| `429`      | Too Many Requests  | Se superó el límite de requests — ver abajo                                                  |
 
 ---
 
@@ -157,6 +158,16 @@ El estado de tus datos contradice el request. Este es el que conviene leer con c
 
 Un nombre de ejercicio activo duplicado también devuelve `409`.
 
+### 429 — Too Many Requests
+
+Cada endpoint tiene un límite de **60 requests por minuto por IP de cliente**, contado por separado para cada endpoint. Al llegar al límite, ese endpoint responde `429` hasta que vence la ventana de un minuto:
+
+```json
+{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }
+```
+
+Este body **no tiene campo `error`**, a diferencia de la forma estándar. El header `Retry-After` indica los segundos a esperar antes de reintentar. Las respuestas exitosas llevan `X-RateLimit-Limit`, `X-RateLimit-Remaining` y `X-RateLimit-Reset` (segundos hasta que se reinicia la ventana), así un cliente puede bajar el ritmo antes de quedar bloqueado.
+
 ---
 
 ## Lo que todavía no está implementado
@@ -164,7 +175,6 @@ Un nombre de ejercicio activo duplicado también devuelve `409`.
 :::caution
 Esto se documenta acá para que quien escriba un cliente no se lleve una sorpresa después.
 
-- **No hay `429 Too Many Requests`.** El rate limiting todavía no existe — `/auth/login` acepta hoy intentos ilimitados.
 - **No hay ID de correlación de request.** Las respuestas de error no llevan ningún identificador que puedas citar en un reporte de bug.
 - **Dos formas, no una.** Los errores de validación y los errores estándar difieren, como se documentó arriba. Un futuro filtro de excepciones global podría unificarlos; hasta entonces, maneja ambas.
 :::
