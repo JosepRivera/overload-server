@@ -64,7 +64,7 @@ Estas bloquean un deploy real y todavía no están decididas:
 
 - **Destino de hosting.** ¿Plataforma de contenedores, PaaS o VM? Esto determina cómo se cablean migraciones, secrets y health checks.
 - **Hosting de la base de datos.** ¿PostgreSQL 18 gestionado, o self-hosted? Backups y recuperación point-in-time están sin definir.
-- **Endpoint de health check.** La API no expone ninguna ruta `/health`, así que ningún orquestador puede saber hoy si está viva. Notar que en `compose.yaml` el servicio de Postgres tiene healthcheck y el servicio de la API no.
+- **Cableado del health check.** `GET /health` ejecuta `SELECT 1` y responde `503` si la base de datos no está disponible, pero nadie lo usa todavía: en `compose.yaml` solo el servicio de Postgres tiene healthcheck y ningún orquestador consulta la API.
 - **Gestión de secrets.** De dónde salen `JWT_SECRET` y las credenciales de la base de datos en runtime.
 - **Limpieza de tokens expirados.** El [ADR de sesión en Reglas de Negocio](/es/architecture/business-rules/) asume que un job programado borra los refresh tokens expirados. Ese job todavía no existe.
 - **Logging y observabilidad.** No hay logging estructurado ni reporte de errores configurado.

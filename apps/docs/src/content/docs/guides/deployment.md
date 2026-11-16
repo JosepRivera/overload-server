@@ -64,7 +64,7 @@ These block a real deployment and are not yet decided:
 
 - **Hosting target.** Container platform, PaaS or VM? This determines how migrations, secrets and health checks are wired.
 - **Database hosting.** Managed PostgreSQL 18, or self-hosted? Backups and point-in-time recovery are undefined.
-- **Health check endpoint.** The API exposes no `/health` route, so no orchestrator can currently tell whether it is alive. Note that in `compose.yaml` the Postgres service has a healthcheck and the API service does not.
+- **Health check wiring.** `GET /health` runs `SELECT 1` and answers `503` when the database is unreachable, but nothing uses it yet: in `compose.yaml` only the Postgres service has a healthcheck, and no orchestrator probes the API.
 - **Secret management.** Where `JWT_SECRET` and the database credentials come from at runtime.
 - **Expired token cleanup.** [ADR 0005](/architecture/business-rules/) assumes a scheduled job removes expired refresh tokens. No such job exists yet.
 - **Logging and observability.** No structured logging or error reporting is configured.

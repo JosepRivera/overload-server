@@ -17,6 +17,8 @@ export default defineConfig({
 			social: [{ icon: 'github', label: 'GitHub', href: REPO_URL }],
 			editLink: { baseUrl: `${REPO_URL}/edit/main/apps/docs/` },
 			lastUpdated: true,
+			// The custom page in src/content/docs/404.md is rendered by the docs route.
+			disable404Route: true,
 			tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 3 },
 			plugins: [starlightThemeNova()],
 			locales: {
