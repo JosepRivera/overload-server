@@ -20,11 +20,7 @@ async function bootstrap() {
 	if (env.NODE_ENV === "development") {
 		const config = new DocumentBuilder()
 			.setTitle("Overload API")
-			.setDescription(
-				[
-					"REST API for strength training tracking."
-				].join("\n"),
-			)
+			.setDescription(["REST API for strength training tracking."].join("\n"))
 			.setVersion("1.0")
 			.addServer(`http://localhost:${env.PORT}`, "Development")
 			.addBearerAuth()

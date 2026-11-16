@@ -55,7 +55,6 @@ describe("Sets E2E", () => {
 		return { accessToken, workoutId, exerciseId };
 	}
 
-
 	describe("POST /workouts/:workoutId/sets", () => {
 		it("happy path: 201, setNumber generado automáticamente desde 1", async () => {
 			const { accessToken, workoutId, exerciseId } = await setupWorkoutAndExercise();
@@ -217,7 +216,6 @@ describe("Sets E2E", () => {
 		});
 	});
 
-
 	describe("GET /workouts/:workoutId/sets", () => {
 		it("lista todos los sets incluidos warmups", async () => {
 			const { accessToken, workoutId, exerciseId } = await setupWorkoutAndExercise();
@@ -257,7 +255,6 @@ describe("Sets E2E", () => {
 			expect(res.status).toBe(404);
 		});
 	});
-
 
 	describe("PATCH /workouts/:workoutId/sets/:id", () => {
 		it("happy path: 200", async () => {
@@ -314,7 +311,6 @@ describe("Sets E2E", () => {
 			expect(res.status).toBe(404);
 		});
 	});
-
 
 	describe("DELETE /workouts/:workoutId/sets/:id", () => {
 		it("happy path: 204", async () => {

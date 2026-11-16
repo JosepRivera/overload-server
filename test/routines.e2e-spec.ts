@@ -32,7 +32,6 @@ describe("Routines E2E", () => {
 		await app.close();
 	});
 
-
 	describe("POST /routines", () => {
 		it("happy path: 201", async () => {
 			const { accessToken } = await registerAndLogin(app);
@@ -117,7 +116,6 @@ describe("Routines E2E", () => {
 		});
 	});
 
-
 	describe("GET /routines", () => {
 		it("rutinas inactivas NO aparecen en el listado", async () => {
 			const { accessToken } = await registerAndLogin(app);
@@ -143,7 +141,6 @@ describe("Routines E2E", () => {
 			expect(res.status).toBe(401);
 		});
 	});
-
 
 	describe("GET /routines/:id", () => {
 		it("happy path: incluye routineExercises ordenados por orderIndex", async () => {
@@ -222,7 +219,6 @@ describe("Routines E2E", () => {
 		});
 	});
 
-
 	describe("PATCH /routines/:id", () => {
 		it("happy path: 200", async () => {
 			const { accessToken } = await registerAndLogin(app);
@@ -287,7 +283,6 @@ describe("Routines E2E", () => {
 		});
 	});
 
-
 	describe("DELETE /routines/:id", () => {
 		it("happy path: 204 sin body", async () => {
 			const { accessToken } = await registerAndLogin(app);
@@ -326,7 +321,6 @@ describe("Routines E2E", () => {
 			expect(res.status).toBe(404);
 		});
 	});
-
 
 	describe("POST /routines/:id/exercises", () => {
 		it("happy path: 201", async () => {
@@ -533,7 +527,6 @@ describe("Routines E2E", () => {
 			expect(res.status).toBe(400);
 		});
 	});
-
 
 	describe("POST /routines/:id/exercises/reorder", () => {
 		it("happy path: reordena correctamente", async () => {

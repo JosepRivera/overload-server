@@ -32,7 +32,6 @@ describe("Exercises E2E", () => {
 		await app.close();
 	});
 
-
 	describe("POST /exercises", () => {
 		it("happy path: 201, devuelve el ejercicio creado", async () => {
 			const { accessToken } = await registerAndLogin(app);
@@ -129,7 +128,6 @@ describe("Exercises E2E", () => {
 		});
 	});
 
-
 	describe("GET /exercises", () => {
 		it("happy path: solo ejercicios no archivados del usuario", async () => {
 			const { accessToken } = await registerAndLogin(app);
@@ -215,7 +213,6 @@ describe("Exercises E2E", () => {
 		});
 	});
 
-
 	describe("GET /exercises/:id", () => {
 		it("happy path: 200", async () => {
 			const { accessToken } = await registerAndLogin(app);
@@ -280,7 +277,6 @@ describe("Exercises E2E", () => {
 			expect(res.status).toBe(401);
 		});
 	});
-
 
 	describe("PATCH /exercises/:id", () => {
 		it("happy path: 200", async () => {
@@ -375,7 +371,6 @@ describe("Exercises E2E", () => {
 			expect(res.status).toBe(401);
 		});
 	});
-
 
 	describe("PATCH /exercises/:id/archive (soft delete)", () => {
 		it("happy path: ejercicio queda con isArchived = true", async () => {
