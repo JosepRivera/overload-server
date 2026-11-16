@@ -97,4 +97,18 @@ export class ExerciseController {
 	async archive(@CurrentUser() user: AuthUser, @Param("id", UuidPipe) id: string) {
 		return this.exerciseService.archive(user.sub, id);
 	}
+
+	@Patch(":id/restore")
+	@ApiOperation({
+		summary: "Restore an archived exercise",
+		description: "Returns the exercise with `isArchived` set to false.",
+	})
+	@ApiParam({ name: "id", format: "uuid", description: "Exercise ID" })
+	@ApiOkResponse({ description: "Exercise restored successfully", type: ExerciseResponseDto })
+	@ApiValidationError("id must be a valid UUID", [uuidField("id")])
+	@ApiError(404, "Exercise not found")
+	@ApiError(409, "You already have an active exercise with this name")
+	async restore(@CurrentUser() user: AuthUser, @Param("id", UuidPipe) id: string) {
+		return this.exerciseService.restore(user.sub, id);
+	}
 }

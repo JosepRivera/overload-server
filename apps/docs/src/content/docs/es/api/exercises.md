@@ -117,6 +117,23 @@ Soft delete. Marca `is_archived: true`; el ejercicio desaparece del listado por 
 | `400`  | `id` no es un UUID válido         |
 | `404`  | No encontrado                     |
 
+---
+
+## Restaurar un ejercicio
+
+```
+PATCH /exercises/:id/restore
+```
+
+Deshace el archivado. Pone `isArchived: false`; el ejercicio vuelve al catálogo por defecto y acepta sets nuevos.
+
+| Status | Cuándo                                             |
+| ------ | -------------------------------------------------- |
+| `200`  | Restaurado                                          |
+| `400`  | `id` no es un UUID válido                            |
+| `404`  | No encontrado                                        |
+| `409`  | Otro ejercicio activo ya usa este nombre            |
+
 ## Relacionado
 
 - [Trackear un workout](/es/guides/track-a-workout/)

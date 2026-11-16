@@ -448,4 +448,54 @@ describe("Exercises E2E", () => {
 			expect(res.status).toBe(401);
 		});
 	});
+
+	describe("PATCH /exercises/:id/restore", () => {
+		const create = (token: string, name: string) =>
+			request(app.getHttpServer())
+				.post("/exercises")
+				.set(authHeader(token))
+				.send({ name, category: "legs", type: "compound" });
+
+		it("happy path: ejercicio archivado vuelve con isArchived = false", async () => {
+			const { accessToken } = await registerAndLogin(app);
+			const id = (await create(accessToken, "Restore Target")).body.data.id;
+			await request(app.getHttpServer())
+				.patch(`/exercises/${id}/archive`)
+				.set(authHeader(accessToken));
+
+			const res = await request(app.getHttpServer())
+				.patch(`/exercises/${id}/restore`)
+				.set(authHeader(accessToken));
+
+			expect(res.status).toBe(200);
+			expect(res.body.data.isArchived).toBe(false);
+		});
+
+		it("nombre ya usado por otro ejercicio activo → 409", async () => {
+			const { accessToken } = await registerAndLogin(app);
+			const id = (await create(accessToken, "Squat")).body.data.id;
+			await request(app.getHttpServer())
+				.patch(`/exercises/${id}/archive`)
+				.set(authHeader(accessToken));
+			await create(accessToken, "squat");
+
+			const res = await request(app.getHttpServer())
+				.patch(`/exercises/${id}/restore`)
+				.set(authHeader(accessToken));
+
+			expect(res.status).toBe(409);
+		});
+
+		it("ejercicio de otro usuario → 404", async () => {
+			const owner = await registerAndLogin(app);
+			const other = await registerAndLogin(app);
+			const id = (await create(owner.accessToken, "Private")).body.data.id;
+
+			const res = await request(app.getHttpServer())
+				.patch(`/exercises/${id}/restore`)
+				.set(authHeader(other.accessToken));
+
+			expect(res.status).toBe(404);
+		});
+	});
 });
