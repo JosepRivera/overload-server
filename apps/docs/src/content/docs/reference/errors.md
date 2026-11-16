@@ -82,6 +82,7 @@ Entries in `errors` may include additional schema metadata beyond the fields doc
 | `403` | Forbidden    | Authenticated, but the resource belongs to another user             |
 | `404` | Not Found    | The resource does not exist, or is not yours                        |
 | `409` | Conflict     | The request contradicts current state — see below                   |
+| `429` | Too Many Requests | Rate limit exceeded — see below                                |
 
 ---
 
@@ -157,6 +158,16 @@ The state of your data contradicts the request. This is the one worth reading ca
 
 A duplicate active exercise name also returns `409`.
 
+### 429 — Too Many Requests
+
+Every endpoint is rate limited to **60 requests per minute per client IP**, counted separately for each endpoint. Once the limit is hit, that endpoint answers `429` until the minute window expires:
+
+```json
+{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }
+```
+
+This body has **no `error` field**, unlike the standard shape. The `Retry-After` header gives the seconds to wait before retrying. Successful responses carry `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset` (seconds until the window resets), so a client can slow down before it gets blocked.
+
 ---
 
 ## What is not implemented yet
@@ -164,7 +175,6 @@ A duplicate active exercise name also returns `409`.
 :::caution
 These are documented here so client authors are not surprised later.
 
-- **No `429 Too Many Requests`.** Rate limiting does not exist yet — `/auth/login` currently accepts unlimited attempts.
 - **No request correlation ID.** Error responses carry no identifier you can quote in a bug report.
 - **Two shapes, not one.** Validation errors and standard errors differ, as documented above. A future global exception filter may unify them; until then, handle both.
 :::

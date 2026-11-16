@@ -68,7 +68,7 @@ Estas bloquean un deploy real y todavía no están decididas:
 - **Gestión de secrets.** De dónde salen `JWT_SECRET` y las credenciales de la base de datos en runtime.
 - **Limpieza de tokens expirados.** El [ADR de sesión en Reglas de Negocio](/es/architecture/business-rules/) asume que un job programado borra los refresh tokens expirados. Ese job todavía no existe.
 - **Logging y observabilidad.** No hay logging estructurado ni reporte de errores configurado.
-- **Rate limiting.** `/auth/login` acepta hoy intentos ilimitados. Esto no debería exponerse públicamente sin un limiter delante.
+- **Rate limiting.** Un limiter global permite 60 requests por minuto por IP en cada endpoint, `/auth/login` incluido. Sus contadores viven en memoria, así que se reinician al reiniciar y no se comparten entre instancias, y usa la IP del request sin `trust proxy`, así que detrás de un reverse proxy todos los clientes compartirían un mismo contador. Un límite más estricto para el login también está sin decidir.
 
 :::note[Contribuir a esta página]
 Cuando se elija el destino de hosting, reemplaza esta sección con los pasos reales de deploy y borra el banner de borrador de arriba.

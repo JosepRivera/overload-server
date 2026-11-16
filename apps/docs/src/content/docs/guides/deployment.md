@@ -68,7 +68,7 @@ These block a real deployment and are not yet decided:
 - **Secret management.** Where `JWT_SECRET` and the database credentials come from at runtime.
 - **Expired token cleanup.** [ADR 0005](/architecture/business-rules/) assumes a scheduled job removes expired refresh tokens. No such job exists yet.
 - **Logging and observability.** No structured logging or error reporting is configured.
-- **Rate limiting.** `/auth/login` currently accepts unlimited attempts. This should not be publicly exposed without a limiter in front of it.
+- **Rate limiting.** A global limiter allows 60 requests per minute per IP on each endpoint, `/auth/login` included. Its counters live in memory, so they reset on restart and are not shared between instances, and it keys on the request IP without `trust proxy`, so behind a reverse proxy every client would share one bucket. A stricter login limit is also undecided.
 
 :::note[Contributing to this page]
 When the hosting target is chosen, replace this section with the real deployment steps and delete the draft banner above.
