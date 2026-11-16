@@ -32,7 +32,6 @@ describe("Auth E2E", () => {
 		await app.close();
 	});
 
-
 	describe("POST /auth/register", () => {
 		it("happy path: 201, devuelve accessToken, refreshToken y user sin passwordHash", async () => {
 			const email = `test-${Date.now()}@test.com`;
@@ -116,7 +115,6 @@ describe("Auth E2E", () => {
 		});
 	});
 
-
 	describe("POST /auth/login", () => {
 		it("happy path: 200", async () => {
 			const { email } = await registerAndLogin(app);
@@ -168,7 +166,6 @@ describe("Auth E2E", () => {
 		});
 	});
 
-
 	describe("POST /auth/refresh", () => {
 		it("happy path: 200, devuelve nuevos tokens", async () => {
 			const { refreshToken } = await registerAndLogin(app);
@@ -213,7 +210,6 @@ describe("Auth E2E", () => {
 		});
 	});
 
-
 	describe("POST /auth/logout", () => {
 		it("happy path: 204 sin body", async () => {
 			const { refreshToken } = await registerAndLogin(app);
@@ -242,7 +238,6 @@ describe("Auth E2E", () => {
 			expect(res.status).toBe(401);
 		});
 	});
-
 
 	describe("Límite de 5 refresh tokens", () => {
 		it("login 6 veces → token más antiguo revocado, últimos 5 activos", async () => {

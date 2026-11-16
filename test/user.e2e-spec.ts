@@ -32,7 +32,6 @@ describe("User E2E", () => {
 		await app.close();
 	});
 
-
 	describe("GET /users/me", () => {
 		it("happy path: perfil sin passwordHash", async () => {
 			const { accessToken, user } = await registerAndLogin(app);

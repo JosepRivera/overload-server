@@ -70,7 +70,6 @@ describe("Analytics E2E", () => {
 			.send({ exerciseId: exerciseId, weight, reps, isWarmup: isWarmup });
 	}
 
-
 	describe("GET /analytics/exercises/:exerciseId/prs", () => {
 		it("happy path: devuelve weightPr y volumePr correctos", async () => {
 			const { accessToken, workoutId, exerciseId } = await setupBasic();
@@ -178,7 +177,6 @@ describe("Analytics E2E", () => {
 			expect(res.status).toBe(401);
 		});
 	});
-
 
 	describe("GET /analytics/exercises/:exerciseId/progression", () => {
 		it("sessions ordenadas por fecha desc", async () => {
@@ -294,7 +292,6 @@ describe("Analytics E2E", () => {
 			expect(res.status).toBe(404);
 		});
 	});
-
 
 	describe("GET /analytics/workouts/:workoutId/volume", () => {
 		it("totalVolume = SUM(weight × reps) de no-warmup", async () => {
