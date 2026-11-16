@@ -80,6 +80,18 @@ export class ExerciseService {
 		});
 	}
 
+	async restore(userId: string, id: string) {
+		const exercise = await this.findOne(userId, id);
+		if (exercise.isArchived) {
+			await this.assertUniqueNameForUser(userId, exercise.name, id);
+		}
+		return this.prisma.exercise.update({
+			where: { id },
+			data: { isArchived: false },
+			omit: { userId: true, createdAt: true, updatedAt: true },
+		});
+	}
+
 	private async assertUniqueNameForUser(userId: string, name: string, excludeId?: string) {
 		const existing = await this.prisma.exercise.findFirst({
 			where: {
